@@ -2,7 +2,7 @@ import express from "express";
 
 
 import testController from "../controller/testController";
-
+import apiController from "../controller/apiController"
 const router = express.Router();
 
 const initWebRouter = (app) => {
@@ -11,6 +11,7 @@ const initWebRouter = (app) => {
     router.post("/delete-user/:id", testController.DeleteUser);
     router.get("/update-user/:id", testController.UpdateUser);
     router.post("/users/update-user", testController.handleUpdateUser);
+    router.get("/api/test-api", apiController.TestApi);
 
 
 

@@ -34,18 +34,18 @@ const DeleteUser = async (req, res) => {
 const UpdateUser = async (req, res) => {
     let id = req.params.id
     let user = await testServices.getUserByID(id)
-    let userdata = {}
-    if (user && user.length > 0) {
-        userdata = user[0]
-    }
+    let userdata = user
+    // if (user && user.length > 0) {
+    //     userdata = user[0]
+    // }
     return res.render("test-update-user.ejs", { userdata })
 
 }
 const handleUpdateUser = async (req, res) => {
-    let { email, Username } = req.body
+    let { email, username } = req.body
     let id = req.body.id
 
-    await testServices.UpdateUserInfo(email, Username, id)
+    await testServices.UpdateUserInfo(email, username, id)
     return res.redirect("/users")
 
 

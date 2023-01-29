@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Users',
+    await queryInterface.bulkInsert('User',
       [
         {
           // lấy tên model không thêm s trong thư mục

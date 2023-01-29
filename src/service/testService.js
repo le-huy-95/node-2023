@@ -2,13 +2,7 @@
 import bcrypt from "bcryptjs"
 import mysql from "mysql2/promise"
 const bluebird = require('bluebird');
-// Store hash in your password DB.
-// create the connection to database
-// const connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     database: 'app web'
-// });
+import db from "../models";
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -17,20 +11,22 @@ const hashPassWord = (passwordInput) => {
     return bcrypt.hashSync(passwordInput, salt);
 }
 
-const createNewUser = async (email, password, Username) => {
-    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
-
-
+const createNewUser = async (email, password, username) => {
     let hashPass = hashPassWord(password)
-    try {
-        const [rows, fields] = await connection.execute('INSERT INTO users(email, password, Username) VALUES(?, ?, ?) ', [email, hashPass, Username]);
 
+
+    try {
+        await db.User.create({
+            username: username,
+            email: email,
+            password: hashPass
+        })
     } catch (e) {
         console.log(e)
     }
 
     // connection.query(
-    //     'INSERT INTO users(email, password, Username) VALUES(?, ?, ?) ', [email, hashPass, Username],
+    //     'INSERT INTO user(email, password, Username) VALUES(?, ?, ?) ', [email, hashPass, Username],
     //     function (err, results, fields) {
     //         if (err) {
     //             console.log(err)
@@ -42,70 +38,110 @@ const createNewUser = async (email, password, Username) => {
 
 
 const getAllUser = async () => {
-    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
-
-    let users = []
-
-    // return connection.query(
-    //     'select * from users ',
-    //     function (err, results, fields) {
-    //         if (err) {
-    //             console.log(err)
-    //             return users
-    //         }
-    //         users = results
-    //         console.log("check results", results)
-    //         return users
+    // let users = []
+    // users = await db.User.findOne({
+    //     where: { id: 1 },
+    //     raw: true
+    // })
+    // console.log("new user ", users)
 
 
-    //     }
-    // );
-    try {
-        const [rows, fields] = await connection.execute('select * from users ');
-        return rows
-    } catch (error) {
-        console.log(error)
-    }
+
+    let users = await db.User.findAll({
+        where: { id: 1 },
+        attributes: ["id", "username", "email"],
+        include: {
+            model: db.Group, attributes: ["name", "description"],
+        },
+        nest: true,
+        raw: true
+    })
+
+    // let R = await db.Role.findAll({
+    //     include: {
+    //         model: db.Group, where: { id: 1 }
+    //     },
+    //     nest: true,
+    //     raw: true
+
+    // })
+    // console.log("new users ", users)
+
+    // console.log("new Roles ", R)
+
+    // const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
+
+
+    // try {
+    //     const [rows, fields] = await connection.execute('select * from user ');
+    //     return rows
+    // } catch (error) {
+    //     console.log(error)
+    // }
+
+    return users;
 
 }
 
 const deletemem = async (id) => {
-    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
+
+    await db.User.destroy({
+        where: { id }
+    })
+    // const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
 
 
-    try {
-        const [rows, fields] = await connection.execute('DELETE FROM users WHERE id= ? ', [id]);
-        return rows
+    // try {
+    //     const [rows, fields] = await connection.execute('DELETE FROM user WHERE id= ? ', [id]);
+    //     return rows
 
-    } catch (e) {
-        console.log(e)
-    }
+    // } catch (e) {
+    //     console.log(e)
+    // }
 }
 
 const getUserByID = async (id) => {
-    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
+    // const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
 
 
-    try {
-        const [rows, fields] = await connection.execute('select * from users WHERE id= ? ', [id]);
-        return rows
+    // try {
+    //     const [rows, fields] = await connection.execute('select * from user WHERE id= ? ', [id]);
+    //     return rows
 
-    } catch (e) {
-        console.log(e)
-    }
+    // } catch (e) {
+    //     console.log(e)
+    // }
+    let user = {}
+    user = await db.User.findOne({
+        where: { id: id }
+    })
+    // khi nao muon convert tu sequelize object sang 1 bien javascript thuan thi dung cau lenh user.get({ plain: true }) HOAC RAW:TRUE
+    return user.get({ plain: true })
+
 }
-const UpdateUserInfo = async (email, Username, id) => {
-    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
+const UpdateUserInfo = async (email, username, id) => {
+    await db.User.update(
+        {
+            email: email,
+            username: username,
+        },
+        {
+            where: {
+                id: id
+
+            }
+        });
+    // const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'app web', Promise: bluebird });
 
 
-    try {
+    // try {
 
-        const [rows, fields] = await connection.execute('update users set email=?,Username=? WHERE id= ? ', [email, Username, id]);
-        return rows
+    //     const [rows, fields] = await connection.execute('update user set email=?,Username=? WHERE id= ? ', [email, Username, id]);
+    //     return rows
 
-    } catch (e) {
-        console.log(e)
-    }
+    // } catch (e) {
+    //     console.log(e)
+    // }
 }
 module.exports = {
     hashPassWord, createNewUser, getAllUser, deletemem, getUserByID, UpdateUserInfo
