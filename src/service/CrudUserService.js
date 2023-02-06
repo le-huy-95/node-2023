@@ -25,6 +25,7 @@ const checkPhone = async (userPhone) => {
     if (ixExitPhone) {
         return true
     }
+
     return false
 }
 
@@ -79,12 +80,12 @@ const getUserWithPagination = async (page, limit) => {
         const { count, rows } = await db.User.findAndCountAll(
 
             {
-                attributes: ["id", "username", "email", "phone", "sex"],
+                attributes: ["id", "username", "email", "phone", "sex", "address"],
                 include: {
                     model: db.Group,
-                    attributes: ["name", "description"],
+                    attributes: ["name", "description", "id"]
                 },
-
+                order: [['id', 'DESC']],
                 offset: offset,
                 limit: limit,
                 // sort: ""
@@ -124,6 +125,7 @@ const createUser = async (data) => {
             return {
                 EM: "email already exists ",
                 EC: "1",
+                DT: "email"
             }
         }
 
@@ -132,8 +134,12 @@ const createUser = async (data) => {
             return {
                 EM: "Phone already exists ",
                 EC: "1",
+                DT: "phone"
+
             }
+
         }
+
 
         let hashPass = hashPassWord(data.password);
         await db.User.create({
@@ -143,7 +149,7 @@ const createUser = async (data) => {
             username: data.username,
             address: data.address,
             sex: data.sex,
-            group: data.group
+            groupId: data.groupId
 
 
 
@@ -168,18 +174,51 @@ const createUser = async (data) => {
 
 const updateUser = async (data) => {
     try {
-        let user = await db.User.finfOne({
+        if (!data.groupId) {
+            return {
+                EM: " Can Not Update with Emty GroudId",
+                EC: "1",
+                DT: "group",
+            }
+        }
+
+
+        let User = await db.User.findOne({
             where: { id: data.id }
         })
-        if (user) {
-            user.save({})
+
+
+        if (User) {
+            await User.update({
+                username: data.username,
+                address: data.address,
+                sex: data.sex,
+                groupId: data.groupId
+            })
+            return {
+                EM: " Update Success",
+                EC: "0",
+                DT: "",
+            }
         } else {
+            return {
+                EM: " User Not Found",
+                EC: "2",
+                DT: "",
+            }
 
         }
     } catch (error) {
-
+        console.log(error)
+        return {
+            EM: " Wrongs with services",
+            EC: "1",
+            DT: [],
+        }
     }
 }
+
+
 const deleteUser = async (id) => {
     try {
         let User = await db.User.findOne({

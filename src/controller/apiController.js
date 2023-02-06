@@ -54,6 +54,16 @@ const HandleRegister = async (req, res) => {
 const HandleLogin = async (req, res) => {
     try {
         let data = await authService.LoginUser(req.body);
+        //set cookie (khi login thanh cong va co token thi moi set cookie)
+        if (data && data.DT && data.DT.access_token) {
+            res.cookie("jwt", data.DT.access_token, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 1000
+                // set time cookies ton tai
+
+            })
+        }
+
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -70,6 +80,20 @@ const HandleLogin = async (req, res) => {
 
 }
 
+
+const HandleGetUserAccount = async (req, res) => {
+    return res.status(200).json({
+        EM: "ok",
+        EC: 0,
+        DT: {
+            access_token: req.token,
+            groupWithRole: req.user.groupWithRole,
+            email: req.user.email,
+            username: req.user.username
+        }
+
+    })
+}
 module.exports = {
-    TestApi, HandleRegister, HandleLogin
+    TestApi, HandleRegister, HandleLogin, HandleGetUserAccount
 }

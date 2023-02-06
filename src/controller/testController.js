@@ -16,6 +16,9 @@ const handleCreateNewUser = async (req, res) => {
     return res.redirect("/users")
 }
 const handleRenderListUser = async (req, res) => {
+    // Cookies that have not been signed
+    console.log('Cookies: ', req.cookies)
+
 
     let listUser = await testServices.getAllUser()
 

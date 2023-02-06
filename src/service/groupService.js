@@ -6,7 +6,7 @@ const getAllGroup = async () => {
 
 
         let data = await db.Group.findAll({
-            order: [['name', 'ASC']]
+            order: [['name', 'DESC']]
         })
         return {
             EM: " get group success",

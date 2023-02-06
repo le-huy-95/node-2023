@@ -3,6 +3,7 @@ import CrudUserService from "../service/CrudUserService"
 
 
 const show = async (req, res) => {
+    console.log(req.user)
     try {
         if (req.query.page && req.query.limit) {
             let page = req.query.page;
@@ -62,9 +63,15 @@ const create = async (req, res) => {
     }
 }
 
-const update = (req, res) => {
+const update = async (req, res) => {
     try {
+        let data = await CrudUserService.updateUser(req.body)
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT
 
+        })
     } catch (error) {
         console.log(error)
         return res.status(500).json({

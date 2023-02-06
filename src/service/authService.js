@@ -2,6 +2,9 @@ import bcrypt from "bcryptjs"
 
 import db from "../models/index"
 import { Op } from "sequelize";
+import { getGroupWithRole } from "../service/jwtService"
+import { CreateJwt } from "../middleware/JwtOption"
+require("dotenv").config();
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -53,7 +56,8 @@ const regiterNewUser = async (userData) => {
             email: userData.email,
             password: hashPass,
             username: userData.username,
-            phone: userData.Phone
+            phone: userData.Phone,
+            groupId: 3
         })
         return {
             EM: "Created new user succesfully ^-^ ",
@@ -91,33 +95,35 @@ const LoginUser = async (data) => {
             }
         })
         if (user) {
-            console.log("found user")
             let isCorrectPassword = checkPassWord(data.password, user.password)
             if (isCorrectPassword == true) {
+                let groupWithRole = await getGroupWithRole(user);
+                let payload = {
+                    email: user.email,
+                    username: user.username,
+                    groupWithRole,
+                }
+
+                let token = CreateJwt(payload)
                 return {
                     EM: "ok ! ",
                     EC: "0",
-                    DT: ""
+                    DT: {
+                        access_token: token,
+                        groupWithRole,
+                        email: user.email,
+                        username: user.username
+                    }
 
                 }
             }
         }
-        console.log("not found user :", data.valueLogin, "pass :", data.password)
         return {
             EM: "Your email/phone number or password is incorrect ",
             EC: "1",
             DT: ""
 
         }
-
-        // if (checkPhoneExist === true) {
-        //     return {
-        //         EM: "Phone already exists ",
-        //         EC: "1",
-        //         DT: ""
-
-        //     }
-        // }
     } catch (error) {
         console.log(error)
         return {

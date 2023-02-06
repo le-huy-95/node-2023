@@ -5,7 +5,21 @@ import testController from "../controller/testController";
 import apiController from "../controller/apiController"
 const router = express.Router();
 
+const testMiddleWare = (req, res, next) => {
+    console.log("calling a middleware")
+    next();
+}
+
+
+
+
 const initWebRouter = (app) => {
+
+
+
+
+
+
     router.get("/users", testController.handleRenderListUser);
     router.post("/users/create-user", testController.handleCreateNewUser);
     router.post("/delete-user/:id", testController.DeleteUser);
