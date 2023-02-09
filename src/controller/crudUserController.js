@@ -1,4 +1,3 @@
-import db from "../models";
 import CrudUserService from "../service/CrudUserService"
 
 
@@ -16,10 +15,6 @@ const show = async (req, res) => {
                 DT: data.DT
 
             })
-
-
-
-
         } else {
             let data = await CrudUserService.getAllUser()
             return res.status(200).json({

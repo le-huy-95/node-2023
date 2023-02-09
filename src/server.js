@@ -7,7 +7,7 @@ require("dotenv").config();
 import configCors from "./config/cors"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser";
-
+import RoleApi from "./routes/Role"
 // import connection from "./config/connectdb"
 
 
@@ -28,7 +28,7 @@ app.use(cookieParser())
 initWebRouter(app);
 AuthApi(app)
 CrudUser(app)
-
+RoleApi(app)
 const PORT = process.env.PORT || 8080;
 
 

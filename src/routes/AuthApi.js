@@ -15,6 +15,7 @@ const AuthApi = (app) => {
     router.post("/register", apiController.HandleRegister);
     router.post("/login", apiController.HandleLogin);
     router.get("/account", apiController.HandleGetUserAccount);
+    router.post("/logout", apiController.HandleLogout);
 
 
 

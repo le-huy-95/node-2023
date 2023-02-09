@@ -94,6 +94,28 @@ const HandleGetUserAccount = async (req, res) => {
 
     })
 }
+
+
+
+const HandleLogout = (req, res) => {
+
+    try {
+        res.clearCookie("jwt")
+        return res.status(200).json({
+            EM: "log out ok",
+            EC: 0,
+            DT: "",
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            EM: "Error from Server",
+            EC: "-1",
+            DT: "",
+        })
+    }
+}
 module.exports = {
-    TestApi, HandleRegister, HandleLogin, HandleGetUserAccount
+    TestApi, HandleRegister, HandleLogin, HandleGetUserAccount,
+    HandleLogout
 }
