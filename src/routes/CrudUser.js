@@ -10,7 +10,7 @@ const router = express.Router();
 const CrudUser = (app) => {
 
 
-    router.all('*', checkUserJwt, checkUserPermission);
+    // router.all('*', checkUserJwt, checkUserPermission);
 
     router.get("/user/show", crudUser.show);
     router.post("/user/create", crudUser.create);

@@ -89,7 +89,8 @@ const HandleGetUserAccount = async (req, res) => {
             access_token: req.token,
             groupWithRole: req.user.groupWithRole,
             email: req.user.email,
-            username: req.user.username
+            username: req.user.username,
+            phone: req.user.phone
         }
 
     })

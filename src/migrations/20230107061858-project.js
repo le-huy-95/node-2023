@@ -8,18 +8,76 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      order: {
         type: Sequelize.STRING
       },
-      description: {
+      nameProduct: {
         type: Sequelize.STRING
       },
-      startDate: {
+      quantity: {
+        type: Sequelize.STRING
+      },
+      money: {
+        type: Sequelize.STRING
+      },
+      shippingUnitId: {
+        type: Sequelize.INTEGER
+      },
+      total: {
+        type: Sequelize.STRING
+      },
+      createdBy: {
         type: Sequelize.STRING
       },
       customerId: {
         type: Sequelize.INTEGER
       },
+      Note: {
+        type: Sequelize.STRING
+      },
+      salesChannelId: {
+        type: Sequelize.INTEGER
+      },
+      statusdeliveryId: {
+        type: Sequelize.INTEGER
+      },
+      statuspaymentId: {
+        type: Sequelize.INTEGER
+      },
+
+      statuspickupId: {
+        type: Sequelize.INTEGER
+
+      },
+      statuswarehouseId: {
+        type: Sequelize.INTEGER
+
+      },
+      Notemore: {
+        type: Sequelize.STRING
+
+      },
+      Pricedrop: {
+        type: Sequelize.STRING
+
+      },
+      Netsalary: {
+        type: Sequelize.STRING
+
+      },
+      paid: {
+        type: Sequelize.STRING
+
+      },
+      receiveMoneyId: {
+        type: Sequelize.INTEGER
+
+      },
+      address_pick_up: {
+        type: Sequelize.STRING
+
+      },
+
 
       createdAt: {
         allowNull: false,

@@ -40,7 +40,7 @@ const getAllUser = async () => {
     }
     try {
         let users = await db.User.findAll({
-            attributes: ["id", "username", "email", "phone", "sex"],
+            attributes: ["id", "username", "email", "phone", "sex", "createdAt", "image"],
             include: {
                 model: db.Group, attributes: ["name", "description"],
             },
@@ -80,10 +80,14 @@ const getUserWithPagination = async (page, limit) => {
         const { count, rows } = await db.User.findAndCountAll(
 
             {
-                attributes: ["id", "username", "email", "phone", "sex", "address"],
+                attributes: ["id", "username", "email", "phone", "sex", "address", "createdAt", "image"],
                 include: {
                     model: db.Group,
                     attributes: ["name", "description", "id"]
+                },
+                include: {
+                    model: db.Projects,
+                    // attributes: ["name", "description", "id"]
                 },
                 order: [['id', 'DESC']],
                 offset: offset,
@@ -118,7 +122,6 @@ const getUserWithPagination = async (page, limit) => {
 }
 
 const createUser = async (data) => {
-    console.log("data", data)
     try {
         let checkEmailExist = await checkEmail(data.email)
         if (checkEmailExist === true) {
@@ -149,7 +152,8 @@ const createUser = async (data) => {
             username: data.username,
             address: data.address,
             sex: data.sex,
-            groupId: data.groupId
+            groupId: data.groupId,
+            image: data.image
 
 
 
@@ -176,7 +180,7 @@ const updateUser = async (data) => {
     try {
         if (!data.groupId) {
             return {
-                EM: " Can Not Update with Emty GroudId",
+                EM: " Can Not Update with Empty GroudId",
                 EC: "1",
                 DT: "group",
             }
@@ -187,13 +191,13 @@ const updateUser = async (data) => {
             where: { id: data.id }
         })
 
-
         if (User) {
             await User.update({
                 username: data.username,
                 address: data.address,
                 sex: data.sex,
-                groupId: data.groupId
+                groupId: data.groupId,
+                image: data.image
             })
             return {
                 EM: " Update Success",

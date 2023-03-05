@@ -1,5 +1,6 @@
 import db from "../models/index"
 
+import { getGroupWithRole } from "../service/jwtService"
 
 const creatNewGroup = async (roles) => {
     try {
@@ -41,11 +42,10 @@ const creatNewGroup = async (roles) => {
 const getAllRole = async () => {
     try {
         let data = await db.Role.findAll({
-            attributes: ["url", "description"],
+            attributes: ["url", "description", "id"],
             raw: true
 
         })
-        console.log(data)
         return {
             EM: " get Role ok",
             EC: "0",
@@ -134,6 +134,69 @@ const removeRole = async (id) => {
         })
     }
 }
+
+
+const fetchRoleByGroup = async (id) => {
+    try {
+
+        if (!id) {
+            return {
+                EM: " groupId empty or not Exist",
+                EC: "0",
+                DT: [],
+            }
+        }
+
+        let roles = await db.Group.findOne({
+            where: { id: id },
+            attributes: ["name", "description", "id"],
+
+            include: [{
+                model: db.Role,
+                attributes: ["url", "description", "id"],
+                through: { attributes: [] }
+            }],
+
+        })
+        return {
+            EM: " get Role by group ok",
+            EC: "0",
+            DT: roles,
+        }
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: "Error from Server",
+            EC: "-1",
+            DT: "",
+        })
+    }
+}
+
+
+const assignRoleToGroup = async (data) => {
+
+    try {
+        await db.Group_Role.destroy({
+            where: { groupId: +data.groupId }
+        })
+        await db.Group_Role.bulkCreate(data.GroupRole)
+        return {
+            EM: " Change Role Success",
+            EC: "0",
+            DT: [],
+        }
+    } catch (error) {
+        console.log(error)
+        return {
+            EM: "Error from Server",
+            EC: "-1",
+            DT: "",
+        }
+    }
+}
 module.exports = {
-    creatNewGroup, getAllRole, getAllRoleWithPaginate, removeRole
+    creatNewGroup, getAllRole, getAllRoleWithPaginate,
+    removeRole, fetchRoleByGroup, assignRoleToGroup
 }

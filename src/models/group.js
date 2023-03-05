@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Group.hasMany(models.User);
-      Group.belongsToMany(models.Role, { through: 'Group_Role', /* options */ })
+      Group.hasMany(models.User, { foreignKey: "groupId" });
+      Group.belongsToMany(models.Role, { through: 'Group_Role' /* options */, foreignKey: "groupId" })
     }
   };
   Group.init({

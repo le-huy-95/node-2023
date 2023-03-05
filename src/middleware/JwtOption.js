@@ -3,7 +3,7 @@ require("dotenv").config();
 
 
 // khai bao cac route khong can check quyen cua jwt
-const nonSecurePaths = ['/login', '/register', '/logout'];
+const nonSecurePaths = ['/login', '/register', '/logout',];
 
 const CreateJwt = (payload) => {
     let key = process.env.JWT_SECRET;
@@ -97,7 +97,6 @@ const checkUserJwt = (req, res, next) => {
 // check nguoi dung co quyen truy cap vao cac duong link khong
 const checkUserPermission = (req, res, next) => {
     if (nonSecurePaths.includes(req.path) || req.path === "/account") return next();
-
     if (req.user) {
         let email = req.user.email
         let role = req.user.groupWithRole.Roles
@@ -109,7 +108,7 @@ const checkUserPermission = (req, res, next) => {
                 DT: ""
             })
         }
-        let userCanAccess = role.some(item => item.url === currentUrl)
+        let userCanAccess = role.some(item => item.url === currentUrl || currentUrl.includes(item.url))
         if (userCanAccess === true) {
             next()
         } else {
