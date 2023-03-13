@@ -20,8 +20,19 @@ module.exports = {
       money: {
         type: Sequelize.STRING
       },
-      shippingUnitId: {
+      shippingUnit_Id: {
         type: Sequelize.INTEGER
+      },
+      shipping_Cost: {
+        type: Sequelize.STRING
+      },
+      From_address: {
+        type: Sequelize.STRING
+
+      },
+      To_address: {
+        type: Sequelize.STRING
+
       },
       total: {
         type: Sequelize.STRING
@@ -77,7 +88,10 @@ module.exports = {
         type: Sequelize.STRING
 
       },
+      Place_of_receipt: {
+        type: Sequelize.STRING
 
+      },
 
       createdAt: {
         allowNull: false,

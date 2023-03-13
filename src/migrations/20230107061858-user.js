@@ -36,6 +36,14 @@ module.exports = {
         type: Sequelize.INTEGER
 
       },
+      DistrictId: {
+        type: Sequelize.INTEGER
+
+      },
+      WardId: {
+        type: Sequelize.INTEGER
+
+      },
 
       createdAt: {
         allowNull: false,

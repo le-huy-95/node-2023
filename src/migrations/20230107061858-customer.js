@@ -24,6 +24,14 @@ module.exports = {
         type: Sequelize.INTEGER
 
       },
+      DistrictId: {
+        type: Sequelize.INTEGER
+
+      },
+      WardId: {
+        type: Sequelize.INTEGER
+
+      },
       note: {
         type: Sequelize.STRING
       },

@@ -9,11 +9,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       url: {
-        type: Sequelize.BLOB
-      },
-      description: {
         type: Sequelize.STRING
       },
+
 
       createdAt: {
         allowNull: false,

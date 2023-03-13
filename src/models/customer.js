@@ -13,7 +13,9 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Customer.hasMany(models.Projects, { foreignKey: "customerId" });
             Customer.belongsTo(models.Province, { foreignKey: "ProvinceId" });
-
+            Customer.belongsTo(models.Province, { foreignKey: "ProvinceId" });
+            Customer.belongsTo(models.District, { foreignKey: "DistrictId" });
+            Customer.belongsTo(models.Ward, { foreignKey: "WardId" });
         }
     };
     Customer.init({
@@ -23,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         addressDetail: DataTypes.STRING,
         note: DataTypes.STRING,
         ProvinceId: DataTypes.INTEGER,
+        DistrictId: DataTypes.INTEGER,
+        WardId: DataTypes.INTEGER,
 
     }, {
         sequelize,

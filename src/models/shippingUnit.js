@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Shipping_Unit.hasMany(models.Projects, { foreignKey: "shippingUnitId" });
-            Shipping_Unit.hasMany(models.Shipping_Cost, { foreignKey: "shippingUnitId" });
+            Shipping_Unit.hasMany(models.Projects, { foreignKey: "shippingUnit_Id" });
+            Shipping_Unit.hasMany(models.Shipping_Cost, { foreignKey: "shippingUnit_Id" });
 
         }
     };

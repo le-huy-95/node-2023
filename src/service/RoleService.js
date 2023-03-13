@@ -12,6 +12,7 @@ const creatNewGroup = async (roles) => {
         // ham so sanh tim ra phan tu khac nhau giua 2arrary
         const results = roles.filter(({ url: url1 }) =>
             !CurrenRoles.some(({ url: url2 }) => url1 === url2))
+        console.log(results)
         if (results.length == 0) {
             return {
                 EM: " nothing to Create or role already exist",

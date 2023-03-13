@@ -16,8 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     Image.init({
-        url: DataTypes.BLOB,
-        description: DataTypes.STRING,
+        url: DataTypes.STRING,
 
 
     }, {

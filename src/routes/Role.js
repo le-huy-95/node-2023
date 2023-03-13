@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 const RoleApi = (app) => {
-    router.all('*', checkUserJwt, checkUserPermission);
+    // router.all('*', checkUserJwt, checkUserPermission);
     router.get("/ShowAllRoleWithPagination", RoleController.ShowAllRole);
     router.get("/showRole", RoleController.showRole);
     router.get("/role/by-group/:groupId", RoleController.getRoleByGroup);

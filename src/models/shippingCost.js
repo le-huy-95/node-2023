@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Shipping_Cost.hasOne(models.Shipping_Unit, { foreignKey: "shippingUnitId" });
+            Shipping_Cost.belongsTo(models.Shipping_Unit, { foreignKey: "shippingUnit_Id" });
         }
     };
     Shipping_Cost.init({
-        ShippingUnitId: DataTypes.INTEGER,
+        shippingUnit_Id: DataTypes.INTEGER,
         From: DataTypes.STRING,
         To: DataTypes.STRING,
         Cost: DataTypes.STRING,

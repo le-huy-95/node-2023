@@ -202,6 +202,40 @@ const getProjects = async (id) => {
         }
     }
 }
+const createProjects = async (data) => {
+    try {
+        await db.User.create({
+            order: data.order,
+            nameProduct: data.name_Product,
+            quantity: data.number,
+            money: data.money,
+            shippingUnit_Id: data.shippingUnitId,
+            shipping_Cost: data.shipping_Cost,
+            From_address: data.From_address,
+            To_address: data.To_address,
+            createdBy: data.createdBy
+
+
+
+        })
+        return {
+            EM: " Create ok",
+            EC: "0",
+            DT: [],
+        }
+
+    } catch (error) {
+        console.log(error)
+        return {
+            EM: " Wrongs with services",
+            EC: "1",
+            DT: [],
+        }
+    }
+
+}
+
+
 module.exports = {
-    getAllProject, getAllProjectWithPagination, getProjects
+    getAllProject, getAllProjectWithPagination, getProjects, createProjects
 }

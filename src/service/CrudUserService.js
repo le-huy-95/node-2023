@@ -80,7 +80,7 @@ const getUserWithPagination = async (page, limit) => {
         const { count, rows } = await db.User.findAndCountAll(
 
             {
-                attributes: ["id", "username", "email", "phone", "sex", "address", "createdAt", "image"],
+                attributes: ["id", "username", "email", "phone", "sex", "addressDetail", "createdAt", "image", "ProvinceId"],
                 include: {
                     model: db.Group,
                     attributes: ["name", "description", "id"]
@@ -150,10 +150,11 @@ const createUser = async (data) => {
             phone: data.phone,
             password: hashPass,
             username: data.username,
-            address: data.address,
+            address: data.addressDetail,
             sex: data.sex,
             groupId: data.groupId,
-            image: data.image
+            image: data.image,
+            ProvinceId: data.ProvinceId
 
 
 

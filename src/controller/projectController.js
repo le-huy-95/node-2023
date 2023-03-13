@@ -57,7 +57,7 @@ const showProject = async (req, res) => {
 
 const addProjectToUser = async (req, res) => {
     try {
-        let data = await ProjectService.getProjects(req.params.id)
+        let data = await ProjectService.createProjects(req.body)
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

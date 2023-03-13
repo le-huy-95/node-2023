@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsTo(models.Group, { foreignKey: "groupId" });
       User.belongsToMany(models.Projects, { through: "Project_Users" /* options */, foreignKey: "userId" });
       User.belongsTo(models.Province, { foreignKey: "ProvinceId" });
+      User.belongsTo(models.District, { foreignKey: "DistrictId" });
+      User.belongsTo(models.Ward, { foreignKey: "WardId" });
 
     }
   };
@@ -27,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER,
     image: DataTypes.BLOB,
     ProvinceId: DataTypes.INTEGER,
+    DistrictId: DataTypes.INTEGER,
+    WardId: DataTypes.INTEGER,
 
   }, {
     sequelize,

@@ -11,10 +11,12 @@ import RoleApi from "./routes/Role"
 // import connection from "./config/connectdb"
 import ProjectApi from "./routes/Project"
 import AddressApi from "./routes/Address"
-
+import ImageApi from "./routes/ImageApi"
+import ShippingApi from "./routes/shipping"
 const app = express();
 configCors(app)
 configViewEngine(app);
+
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
@@ -32,6 +34,9 @@ CrudUser(app)
 RoleApi(app)
 ProjectApi(app)
 AddressApi(app)
+ImageApi(app)
+ShippingApi(app)
+
 
 
 const PORT = process.env.PORT || 8080;
